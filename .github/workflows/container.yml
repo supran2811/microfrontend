@@ -11,6 +11,9 @@ defaults:
   run:
     working-directory: packages/container
 
+env:
+  GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,5 +44,4 @@ jobs:
 
       - name: Deploy
         run: |-
-          echo $GCS_BUCKET
           gsutil -m rsync -R dist gs://$GCS_BUCKET
