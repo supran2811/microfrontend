@@ -44,4 +44,4 @@ jobs:
 
       - name: Deploy
         run: |-
-          gsutil -m rsync -R dist gs://$GCS_BUCKET/container
+          gsutil -m rsync -R dist gs://$GCS_BUCKET/container/latest
