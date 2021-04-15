@@ -1,0 +1,51 @@
+name: "deploy-container"
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "packages/marketing/**"
+
+defaults:
+  run:
+    working-directory: packages/marketing
+
+env:
+  GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup - gcloud / gsutil
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ secrets.GCS_SA_KEY }}
+          project_id: ${{ secrets.GCS_PROJECT }}
+          export_default_credentials: true
+
+      - name: Setup - python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Setup - dependencies
+        run: |-
+          npm install
+
+      - name: Build
+        run: |-
+          npm run build
+
+      - name: Deploy
+        run: |-
+          gsutil -m rsync -R dist gs://$GCS_BUCKET/marketing/latest
+
+      - name: InvalidateCache
+        run: |-
+          gcloud compute url-maps invalidate-cdn-cache http-lb --path "/marketing/latest/remoteEntry.js"
