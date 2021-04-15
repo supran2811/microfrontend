@@ -45,3 +45,7 @@ jobs:
       - name: Deploy
         run: |-
           gsutil -m rsync -R dist gs://$GCS_BUCKET/container/latest
+
+      - name: InvalidateCache
+        run: |-
+          gcloud compute url-maps invalidate-cdn-cache http-lb --path "/container/latest/index.html"
