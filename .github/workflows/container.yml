@@ -41,6 +41,8 @@ jobs:
       - name: Build
         run: |-
           npm run build
+        env:
+          PRODUCITON_DOMAIN: ${{ secrets.PRODUCITON_DOMAIN }}
 
       - name: Deploy
         run: |-
@@ -48,4 +50,4 @@ jobs:
 
       - name: InvalidateCache
         run: |-
-          gcloud compute url-maps invalidate-cdn-cache http-lb --path "/container/latest/index.html"
+          gcloud compute url-maps invalidate-cdn-cache ${{ secrets.URL_MAPS_NAME }} --path "/container/latest/index.html"

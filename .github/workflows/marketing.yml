@@ -1,4 +1,4 @@
-name: "deploy-container"
+name: "deploy-marketing"
 
 on:
   push:
@@ -48,4 +48,4 @@ jobs:
 
       - name: InvalidateCache
         run: |-
-          gcloud compute url-maps invalidate-cdn-cache http-lb --path "/marketing/latest/remoteEntry.js"
+          gcloud compute url-maps invalidate-cdn-cache ${{ secrets.URL_MAPS_NAME }} --path "/marketing/latest/remoteEntry.js"
