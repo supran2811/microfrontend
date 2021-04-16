@@ -42,12 +42,12 @@ jobs:
         run: |-
           npm run build
         env:
-          PRODUCITON_DOMAIN: ${{ secrets.PRODUCITON_DOMAIN }}
+          PRODUCITON_DOMAIN: ${{ secrets.PRODUCITON_DOMAIN}}
 
       - name: Deploy
         run: |-
-          gsutil -m rsync -R dist gs://$GCS_BUCKET/container/latest
+          gsutil -m rsync -R dist gs://$GCS_BUCKET
 
       - name: InvalidateCache
         run: |-
-          gcloud compute url-maps invalidate-cdn-cache ${{ secrets.URL_MAPS_NAME }} --path "/container/latest/index.html"
+          gcloud compute url-maps invalidate-cdn-cache ${{ secrets.URL_MAPS_NAME }} --path "/index.html"
