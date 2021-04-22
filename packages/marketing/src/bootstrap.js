@@ -11,7 +11,6 @@ export const mount = (el , { onNavigate ,defaultHistory }) => {
 
   history.listen(onNavigate);
   
-
   return {
     onParentNavigate({ pathname : nextPathName}) {
       const { pathname  } = history.location;
