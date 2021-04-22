@@ -10,6 +10,7 @@ export const mount = (el , { onNavigate ,defaultHistory }) => {
   ReactDOM.render(<App history={history} /> , el);
 
   history.listen(onNavigate);
+  
 
   return {
     onParentNavigate({ pathname : nextPathName}) {
