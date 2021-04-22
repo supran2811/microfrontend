@@ -23,6 +23,7 @@ const App = () => {
     if(isSignedIn) {
       history.push('/dashboard');
     }
+    
   },[isSignedIn])
 
   return (
